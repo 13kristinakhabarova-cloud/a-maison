@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>à maison — анкета</title>
+<meta name="description" content="Анонимная анкета обратной связи после ужина à maison">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Amatic+SC:wght@700&family=Montserrat:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+<style>
+/* Layout: the invitation's white sheet; script masthead, six blocks of questions in one column, tappable chips */
+:root{
+  --paper:#ffffff;
+  --ink:#0d0d0d;
+  --ink-soft:#555555;
+  --line:#dcdcdc;
+  --script:"Kaushan Script","Brush Script MT",cursive;
+  --hand:"Amatic SC","Arial Narrow",sans-serif;
+  --body:"Montserrat","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-weight:300;font-size:16px}
+.wrap{max-width:720px;margin:0 auto;padding-inline:20px;padding-block:28px 80px}
+.mast{font-family:var(--script);font-size:clamp(64px,18vw,128px);line-height:.95;margin:0;font-weight:400}
+.sub{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px;font-size:clamp(17px,4.5vw,21px)}
+.sub .dot{width:7px;height:7px;border-radius:50%;background:var(--ink)}
+.intro{margin-top:24px;border:1.5px solid var(--ink);border-radius:6px;padding:20px clamp(16px,4vw,28px);font-size:clamp(16px,4vw,18px);line-height:1.6}
+.intro p{margin:0}
+.block{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink)}
+.block-head{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
+.block-head .bn{font-family:var(--hand);font-size:26px}
+.block-head h2{font-family:var(--script);font-weight:400;font-size:clamp(34px,9vw,48px);margin:0;line-height:1}
+.q{display:grid;grid-template-columns:36px minmax(0,1fr);gap:0 10px;padding-block:18px;border-bottom:1px solid var(--line);margin:0;border-inline:0;border-top:0;min-width:0}
+.q:last-child{border-bottom:0}
+.qn{font-family:var(--hand);font-size:28px;line-height:1}
+.qb{min-width:0}
+.qt{margin:0;padding:0;font-size:clamp(16.5px,4.2vw,19px);line-height:1.45;font-weight:400;text-wrap:balance}
+.req{color:var(--ink-soft);font-size:13px;margin-left:4px}
+.hint{font-size:13px;color:var(--ink-soft);font-style:italic;margin-top:6px}
+.opts{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opt span{display:inline-block;font-size:15px;border:1px solid var(--ink);border-radius:999px;padding:9px 16px;line-height:1.2;transition:background .15s,color .15s;user-select:none}
+.opt input:checked + span{background:var(--ink);color:var(--paper)}
+.opt input:focus-visible + span{outline:2px solid var(--ink);outline-offset:3px}
+.scale .opt span{width:40px;height:40px;padding:0;display:grid;place-items:center;border-radius:50%;font-variant-numeric:tabular-nums}
+.scale-labels{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-soft);margin-top:8px;max-width:520px}
+textarea,input[type=text]{width:100%;margin-top:12px;font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:0;border-bottom:1px solid var(--ink);padding:8px 2px;border-radius:0;resize:vertical}
+textarea{min-height:64px;line-height:1.5}
+textarea:focus,input[type=text]:focus{outline:none;border-bottom-width:2px}
+.other{display:none;margin-top:4px}
+.other.on{display:block}
+.submit{margin-top:48px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+button{font:inherit;font-size:17px;font-weight:600;background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:16px 36px;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.status{font-size:14px;color:var(--ink-soft);min-height:1.4em}
+.status.err{color:#b00020}
+.anon{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.thanks{display:none;text-align:center;padding-block:18vh 10vh}
+.thanks .t{font-family:var(--script);font-size:clamp(64px,18vw,120px);line-height:1}
+.thanks p{color:var(--ink-soft);margin-top:12px;font-size:18px}
+body.done form,body.done .intro,body.done .sub{display:none}
+body.done .thanks{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="mast">à maison</h1>
+    <div class="sub"><span>анкета обратной связи</span><span class="dot"></span><span>5 минут</span></div>
+  </header>
+
+  <section class="intro">
+    <p>Спасибо, что пришли на à maison! Мы хотим делать такие ужины регулярно, и ваше мнение поможет сделать их лучше. Анкета займёт около 5 минут, заполнить её можно анонимно.</p>
+  </section>
+
+  <form id="f" novalidate></form>
+
+  <div class="thanks" aria-live="polite">
+    <div class="t">merci!</div>
+    <p>до встречи за столом</p>
+  </div>
+</div>
+
+<script>
+// Ссылка на опубликованный Google Apps Script (веб-приложение). Вставляется после публикации.
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzMCeLYUolvRf5gtNMn5TqTDHFeK5GqZvN_iDu2g_nhcx50iOttraBZjA4k3agf4NfR/exec";
+
+const S=(id,from,to,lo,hi,req)=>({id,t:"scale",from,to,lo,hi,req});
+const R=(id,o,other)=>({id,t:"radio",o,other});
+const C=(id,o,hint)=>({id,t:"check",o,hint});
+const L=(id,hint)=>({id,t:"long",hint});
+const T=(id,hint)=>({id,t:"text",hint});
+
+const blocks=[
+ {h:"общее впечатление",q:[
+  ["Оцените вечер от 1 до 10.",S("q1",1,10,"совсем не понравилось","восторг",true)],
+  ["Насколько вероятно, что вы порекомендуете à maison друзьям?",S("q2",0,10,"точно нет","точно да",true)],
+  ["Что запомнилось больше всего?",L("q3")],
+  ["Что бы вы изменили?",L("q4")]]},
+ {h:"формат",q:[
+  ["Насколько комфортно вам было в домашней обстановке?",S("q5",1,5,"некомфортно","очень уютно")],
+  ["Количество гостей",R("q6",["хотелось бы меньше","в самый раз","больше"])],
+  ["Удобный день и время",R("q7",["выходные днём","вечер пятницы","вечер субботы","будний вечер"],true)],
+  ["Длительность вечера",R("q8",["коротко","в самый раз","затянуто"])],
+  ["Помогли ли карточки с вопросами познакомиться и разговориться?",R("q9",["да","частично","нет"])],
+  ["Вы бы хотели приходить на ужины с незнакомыми людьми или скорее со своей компанией?",L("q10")]]},
+ {h:"еда и шеф",q:[
+  ["Оцените блюдо от шефа.",S("q11",1,5,"не понравилось","очень вкусно")],
+  ["Какой формат еды вам интереснее?",R("q12",["одно блюдо, как сегодня","сет из 3–4 подач","мастер-класс с шефом"])],
+  ["Интересно ли вам слушать историю блюда и общаться с шефом за столом?",R("q13",["да","не важно","нет"])]]},
+ {h:"напитки",q:[
+  ["Насколько напитки подошли к блюду?",S("q14",1,5,"совсем не подошли","идеально")],
+  ["Какой формат напитков вам ближе?",C("q15",["вино к блюду","безалкогольный пейринг","приветственный коктейль","приношу своё","чай и лимонады"],"можно выбрать несколько")],
+  ["Каких напитков вам не хватило?",L("q16")]]},
+ {h:"стоимость",q:[
+  ["Какая цена кажется вам выгодной?",T("q17","сумма в сумах")],
+  ["При какой цене за вечер вы бы засомневались в качестве, потому что это слишком дёшево?",T("q18","сумма в сумах")],
+  ["При какой цене это уже дорого, но вы бы всё равно пришли?",T("q19","сумма в сумах")],
+  ["При какой цене вы бы точно не пришли?",T("q20","сумма в сумах")],
+  ["Готовы ли вы доплачивать за напитки отдельно?",R("q21",["да","нет","зависит от цены"])],
+  ["Как вам удобнее платить?",R("q22",["фиксированный билет","донат по желанию","предоплата при записи"])]]},
+ {h:"следующие ужины",q:[
+  ["Пришли бы вы снова на платный à maison?",R("q23",["да","скорее да","не уверен(а)","нет"])],
+  ["Как часто вам интересно приходить?",R("q24",["раз в неделю","раз в 2 недели","раз в месяц","реже"])],
+  ["Какие кухни или темы ужинов вам интересны?",L("q25")],
+  ["Где вам удобнее узнавать о следующих ужинах?",R("q26",["Telegram","Instagram"],true)],
+  ["Оставьте контакт, если хотите получать приглашения.",T("q27","по желанию. Контакт нужен только для приглашений")]]}
+];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function field(a){
+  if(a.t==="scale"){
+    let s="";for(let i=a.from;i<=a.to;i++)s+=`<label class="opt"><input type="radio" name="${a.id}" value="${i}"><span>${i}</span></label>`;
+    return `<div class="opts scale">${s}</div><div class="scale-labels"><span>${a.from} — ${esc(a.lo)}</span><span>${a.to} — ${esc(a.hi)}</span></div>`;
+  }
+  if(a.t==="radio"||a.t==="check"){
+    const type=a.t==="radio"?"radio":"checkbox";
+    let s=a.o.map(o=>`<label class="opt"><input type="${type}" name="${a.id}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join("");
+    if(a.other)s+=`<label class="opt"><input type="${type}" name="${a.id}" value="__other"><span>другое</span></label>`;
+    let html=`<div class="opts">${s}</div>`;
+    if(a.other)html+=`<input type="text" class="other" id="${a.id}_other" name="${a.id}_other" placeholder="ваш вариант" aria-label="ваш вариант">`;
+    if(a.hint)html+=`<div class="hint">${esc(a.hint)}</div>`;
+    return html;
+  }
+  const hint=a.hint?`<div class="hint">${esc(a.hint)}</div>`:"";
+  if(a.t==="long")return `<textarea id="${a.id}" name="${a.id}" rows="2"></textarea>${hint}`;
+  return `<input type="text" id="${a.id}" name="${a.id}" ${a.hint&&a.hint.includes("сум")?'inputmode="numeric"':''} autocomplete="off">${hint}`;
+}
+let n=0;
+const f=document.getElementById("f");
+f.innerHTML=blocks.map((b,i)=>`
+ <section class="block">
+  <div class="block-head"><span class="bn">${i+1} / 6</span><h2>${b.h}</h2></div>
+  ${b.q.map(([q,a])=>{n++;return `<fieldset class="q" data-id="${a.id}"><span class="qn">${n}</span><div class="qb"><legend class="qt">${esc(q)}${a.req?'<span class="req">обязательно</span>':''}</legend>${field(a)}</div></fieldset>`}).join("")}
+ </section>`).join("")+`
+ <div class="submit">
+  <button type="button" id="send">Отправить</button>
+  <div class="status" id="status" aria-live="polite"></div>
+  <div class="anon">Ответы анонимные: мы не сохраняем имя, почту и другие данные о вас, кроме того, что вы сами напишете в анкете.</div>
+ </div>`;
+
+f.addEventListener("change",e=>{
+  const t=e.target; if(!t.name)return;
+  const o=document.getElementById(t.name+"_other");
+  if(o){
+    const on=[...f.querySelectorAll(`input[name="${t.name}"]`)].some(x=>x.value==="__other"&&x.checked);
+    o.classList.toggle("on",on); if(on&&t.value==="__other")o.focus();
+  }
+});
+
+function collect(){
+  const out={};
+  blocks.forEach(b=>b.q.forEach(([,a])=>{
+    if(a.t==="text"||a.t==="long"){out[a.id]=(f.elements[a.id].value||"").trim();return}
+    const vals=[...f.querySelectorAll(`input[name="${a.id}"]:checked`)].map(x=>x.value==="__other"?("другое: "+(document.getElementById(a.id+"_other").value||"").trim()):x.value);
+    out[a.id]=vals.join(", ");
+  }));
+  return out;
+}
+const status=document.getElementById("status");
+f.addEventListener("submit",e=>{e.preventDefault();send()});
+document.getElementById("send").addEventListener("click",send);
+async function send(){
+  const data=collect();
+  const missing=blocks.flatMap(b=>b.q).filter(([,a])=>a.req&&!data[a.id]);
+  if(missing.length){
+    status.className="status err";
+    status.textContent="Ответьте, пожалуйста, на вопросы 1 и 2: оценка вечера и рекомендация.";
+    f.querySelector(`[data-id="${missing[0][1].id}"]`).scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  if(!ENDPOINT){status.className="status err";status.textContent="Анкета ещё не подключена к таблице.";return}
+  const btn=document.getElementById("send");
+  btn.disabled=true;status.className="status";status.textContent="Отправляем…";
+  try{
+    await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+    document.body.classList.add("done");window.scrollTo({top:0});
+  }catch(err){
+    btn.disabled=false;status.className="status err";
+    status.textContent="Не получилось отправить. Проверьте интернет и нажмите «Отправить» ещё раз.";
+  }
+}
+</script>
+</body>
+</html>
